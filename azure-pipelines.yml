@@ -1,0 +1,25 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  TF_VERSION: '1.6.0'
+
+steps:
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: $(TF_VERSION)
+
+# ✅ Authenticate to Azure using the service connection
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'DataCouch (d52a6d4f-8a6b-4e23-a011-dbb0c8d7eddc)'  # Replace with your actual service connection name if necessary
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      # Init and apply
+      terraform init
+      terraform plan -out=tfplan
+      terraform apply -auto-approve tfplan
