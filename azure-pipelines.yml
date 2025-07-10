@@ -20,6 +20,6 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       # Init and apply
-      terraform init
+      terraform init -migrate-state
       terraform plan -out=tfplan
       terraform apply -auto-approve tfplan
